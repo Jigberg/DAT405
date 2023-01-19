@@ -1,0 +1,152 @@
+FD
+
+studentIdnr studentName login branchName programName courseCode courseName credits departmentName capacity classification grade position
+
+studentIdnr -> studentName
+studentIdnr -> login
+login -> studentIdnr
+
+studentIdnr -> programName
+studentIdnr -> branchName
+studentIdnr -> credits
+
+courseCode -> courseName
+courseCode -> departmentName
+courseCode -> capacity
+
+branchName -> programName
+
+studentIdnr courseCode -> grade
+studentIdnr courseCode -> position
+position courseCode -> studentIdnr
+
+
+----------------------------
+Normalise
+
+
+1. Attributes:
+courseCode courseName departmentName capacity
+Keys:
+courseCode
+
+Functional dependencies:
+courseCode -> courseName
+courseCode -> departmentName
+courseCode -> capacity
+courseCode capacity -> courseName
+courseCode capacity -> departmentName
+courseCode departmentName -> courseName
+courseCode departmentName -> capacity
+courseCode departmentName capacity -> courseName
+courseCode courseName -> departmentName
+courseCode courseName -> capacity
+courseCode courseName capacity -> departmentName
+courseCode courseName departmentName -> capacity
+
+2. Attributes:
+branchName programName
+Keys:
+branchName
+
+Functional dependencies:
+branchName -> programName
+
+3. Attributes:
+login studentIdnr studentName branchName credits
+Keys:
+studentIdnr
+login
+
+Functional dependencies:
+login -> studentIdnr
+login -> studentName
+login -> branchName
+login -> credits
+login credits -> studentIdnr
+login credits -> studentName
+login credits -> branchName
+login branchName -> studentIdnr
+login branchName -> studentName
+login branchName -> credits
+login branchName credits -> studentIdnr
+login branchName credits -> studentName
+studentName login -> studentIdnr
+studentName login -> branchName
+studentName login -> credits
+studentName login credits -> studentIdnr
+studentName login credits -> branchName
+studentName login branchName -> studentIdnr
+studentName login branchName -> credits
+studentName login branchName credits -> studentIdnr
+studentIdnr -> studentName
+studentIdnr -> login
+studentIdnr -> branchName
+studentIdnr -> credits
+studentIdnr credits -> studentName
+studentIdnr credits -> login
+studentIdnr credits -> branchName
+studentIdnr branchName -> studentName
+studentIdnr branchName -> login
+studentIdnr branchName -> credits
+studentIdnr branchName credits -> studentName
+studentIdnr branchName credits -> login
+studentIdnr login -> studentName
+studentIdnr login -> branchName
+studentIdnr login -> credits
+studentIdnr login credits -> studentName
+studentIdnr login credits -> branchName
+studentIdnr login branchName -> studentName
+studentIdnr login branchName -> credits
+studentIdnr login branchName credits -> studentName
+studentIdnr studentName -> login
+studentIdnr studentName -> branchName
+studentIdnr studentName -> credits
+studentIdnr studentName credits -> login
+studentIdnr studentName credits -> branchName
+studentIdnr studentName branchName -> login
+studentIdnr studentName branchName -> credits
+studentIdnr studentName branchName credits -> login
+studentIdnr studentName login -> branchName
+studentIdnr studentName login -> credits
+studentIdnr studentName login credits -> branchName
+studentIdnr studentName login branchName -> credits
+
+4. Attributes:
+courseCode position login grade
+Keys:
+courseCode login
+courseCode position
+
+Functional dependencies:
+courseCode login -> position
+courseCode login -> grade
+courseCode login grade -> position
+courseCode position -> login
+courseCode position -> grade
+courseCode position grade -> login
+courseCode position login -> grade
+
+5. Attributes:
+courseCode classification position
+Keys:
+courseCode classification position
+
+Functional dependencies:
+none
+
+
+--------------------
+MVD
+
+Table 5 have multi-valued dependency.
+CourseCode, classification, position;
+It is a clear Multi value dependency. Courses can have multiple classifications and classification can be used by multiple courses.
+Position howver does only need to 'belong' to coursecode. classifacation don't necessarily need to know about it.
+We can then split our 3 column table into 2 seperate tables of 2 columns each.
+
+Table 1#
+courseCode classification
+
+Table 2#
+courseCode position

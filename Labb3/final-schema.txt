@@ -1,0 +1,60 @@
+Dept(_abbreviation_, name)
+    UNIQUE name
+
+Student(_idnr_, name, CID)
+    UNIQUE CID
+
+Programs(_name_, abbreviation)
+    UNIQUE abbreviation
+
+BelongsToProgram(_program_, _student_)
+    program -> Program.name
+    student -> Student.idnr
+
+Branch(_name_)
+
+Course(_code_, name, credits, Dept.abbreviation)
+
+Classified(_classification_, _course_)
+    classification -> Classification.name
+    course -> Course.code
+
+Classification(_name_)
+
+LimitedCourses(_course_, places)
+    course -> Course.code
+
+Registered(_course_, _student_)
+    course -> Course.code
+    student -> Student.idnr
+
+WaitingList(_course_, _student_, queueSpot)
+    course -> Course.code
+    student -> Student.idnr
+    UNIQUE(courseCode, queueSpot)
+
+Taken(_course_, _student_, grade)
+    course -> Course.code
+    student -> Student.idnr
+
+MandatoryProgram(_course_, _program_)
+    course -> Course.code
+    program -> Program.name
+
+MandatoryBranch(_course_, _branch_, _program_)
+    course -> Course.code
+    (branch, program) -> Branch.(name, program)
+
+RecommendedBranch(_course_, _branch_, _program_)
+    course -> Course.code
+    (branch, program) -> Branch.(name, program)
+
+BelongsToBranch(_student_, _branch_, _program_)
+    student -> Student.idnr
+    (branch, program) -> Branch.(name, program)
+    CONSTRAINT (studentIdnr, program is in BelongsToProgram) 
+
+DeptHasPrograms(_program_, _dept_)
+    program -> Program.name
+    dept -> Dept.abbreviation
+
